@@ -3,7 +3,7 @@ let popupRef = document.querySelector(".popup");
 let newgameBtn = document.getElementById("new-game");
 let restartBtn = document.getElementById("restart");
 let msgRef = document.getElementById("message");
-//Winning Pattern Array
+//Winning Pattern
 let winningPattern = [
   [0, 1, 2],
   [0, 3, 6],
@@ -14,28 +14,24 @@ let winningPattern = [
   [0, 4, 8],
   [2, 4, 6],
 ];
-//Player 'X' plays first
 let xTurn = true;
 let count = 0;
 
-//Disable All Buttons
 const disableButtons = () => {
   btnRef.forEach((element) => (element.disabled = true));
-  //enable popup
   popupRef.classList.remove("hide");
 };
 
-//Enable all buttons (For New Game and Restart)
+//Enable buttons for New Game and Restart
 const enableButtons = () => {
   btnRef.forEach((element) => {
     element.innerText = "";
     element.disabled = false;
   });
-  //disable popup
   popupRef.classList.add("hide");
 };
 
-//This function is executed when a player wins
+// player wins
 const winFunction = (letter) => {
   disableButtons();
   if (letter == "X") {
@@ -45,7 +41,7 @@ const winFunction = (letter) => {
   }
 };
 
-//Function for draw
+// draw
 const drawFunction = () => {
   disableButtons();
   msgRef.innerHTML = "&#x1F60E; <br> It's a Draw";
@@ -70,8 +66,6 @@ const winChecker = () => {
       btnRef[i[1]].innerText,
       btnRef[i[2]].innerText,
     ];
-    //Check if elements are filled
-    //If 3 empty elements are same and would give win as would
     if (element1 != "" && (element2 != "") & (element3 != "")) {
       if (element1 == element2 && element2 == element3) {
         //If all 3 buttons have same values then pass the value to winFunction
@@ -86,16 +80,13 @@ btnRef.forEach((element) => {
   element.addEventListener("click", () => {
     if (xTurn) {
       xTurn = false;
-      //Display X
       element.innerText = "X";
       element.disabled = true;
     } else {
       xTurn = true;
-      //Display Y
       element.innerText = "O";
       element.disabled = true;
     }
-    //Increment count on each click
     count += 1;
     if (count == 9) {
       drawFunction();
@@ -104,5 +95,4 @@ btnRef.forEach((element) => {
     winChecker();
   });
 });
-//Enable Buttons and disable popup on page load
 window.onload = enableButtons;
